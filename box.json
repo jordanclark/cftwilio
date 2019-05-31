@@ -1,0 +1,38 @@
+{
+    "name":"cftwilio",
+    "slug":"cftwilio",
+    "version":"0.5.0",
+    "author":"Jordan Clark <jordanclark@gmail.com>",
+    "keywords":[
+        "twilio",
+        "sms",
+        "api",
+        "rest"
+    ],
+    "shortDescription":"API client for twilio.com",
+    "type":"modules",
+    "location":"jordanclark/cftwilio#v0.5.0",
+    "repository":{
+        "URL":"https://github.com/jordanclark/cftwilio.git",
+        "type":"GIT"
+    },
+    "homepage":"https://github.com/jordanclark/cftwilio",
+    "bugs":"https://github.com/jordanclark/cftwilio/issues",
+    "license":[
+        {
+            "type":"Apache-2.0",
+            "URL":"https://github.com/jordanclark/cftwilio/blob/master/LICENSE"
+        }
+    ],
+    "private":false,
+    "ignore":[
+        "**/.*",
+        "/test/",
+        "/tests/"
+    ],
+    "scripts":{
+        "postVersion":"package set location='jordanclark/cftwilio#v`package version`'",
+        "onRelease":"publish",
+        "postPublish":"!git push --follow-tags"
+    }
+}
