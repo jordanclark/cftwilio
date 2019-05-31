@@ -13,6 +13,10 @@ Twilio.com ColdFusion Rest API Client
 Run the following from commandbox:
 `box install cftwilio`
 
+## Alternatives
+If you use coldbox definitely check out the twilio-sdk module which might be a better fit for your project:
+https://www.forgebox.io/view/twilio-sdk
+
 ## Changes
 2019-05-30 Open source release
 
