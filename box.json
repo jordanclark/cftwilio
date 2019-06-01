@@ -1,7 +1,7 @@
 {
     "name":"cftwilio",
     "slug":"cftwilio",
-    "version":"0.5.0",
+    "version":"0.5.1",
     "author":"Jordan Clark <jordanclark@gmail.com>",
     "keywords":[
         "twilio",
@@ -11,7 +11,7 @@
     ],
     "shortDescription":"API client for twilio.com",
     "type":"modules",
-    "location":"jordanclark/cftwilio#v0.5.0",
+    "location":"jordanclark/cftwilio#v0.5.1",
     "repository":{
         "URL":"https://github.com/jordanclark/cftwilio.git",
         "type":"GIT"
