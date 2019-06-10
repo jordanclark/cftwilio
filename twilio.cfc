@@ -112,7 +112,7 @@ component {
 		} else if ( left( out.statusCode, 1 ) == 2 ) {
 			out.success= true;
 		}
-		//  parse response 
+		// parse response 
 		try {
 			if ( left( http.responseHeader[ "Content-Type" ], 16 ) == "application/json" ) {
 				out.response= deserializeJSON( out.response );
