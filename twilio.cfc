@@ -6,8 +6,9 @@ component {
 	,	string defaultFrom= ""
 	,	required string version= "2010-04-01"
 	,	numeric httpTimeOut= 120
-	,	boolean debug= ( request.debug ?: false )
+	,	boolean debug
 	) {
+		arguments.debug = ( arguments.debug ?: request.debug ?: false );
 		this.accountSID= arguments.accountSID;
 		this.authToken= arguments.authToken;
 		this.defaultFrom= arguments.defaultFrom;
@@ -27,7 +28,12 @@ component {
 				request.log( arguments.input );
 			}
 		} else if( this.debug ) {
-			cftrace( text=( isSimpleValue( arguments.input ) ? arguments.input : "" ), var=arguments.input, category="Twilio", type="information" );
+			var info= ( isSimpleValue( arguments.input ) ? arguments.input : serializeJson( arguments.input ) );
+			cftrace(
+				var= "info"
+			,	category= "Twilio"
+			,	type= "information"
+			);
 		}
 		return;
 	}
