@@ -20,8 +20,8 @@ component {
 	}
 	
 	function debugLog(required input) {
-		if ( structKeyExists( request, "log" ) && isCustomFunction( request.log ) ) {
-			if ( isSimpleValue( arguments.input ) ) {
+		if( structKeyExists( request, "log" ) && isCustomFunction( request.log ) ) {
+			if( isSimpleValue( arguments.input ) ) {
 				request.log( "Twilio: " & arguments.input );
 			} else {
 				request.log( "Twilio: (complex type)" );
@@ -50,11 +50,11 @@ component {
 	
 	function sendMessage(required string to, required string message, string from=this.defaultFrom, string callback="") {
 		var out= this.apiRequest(
-			api= "POST /SMS/Messages"
-		,	to= arguments.to
-		,	body= arguments.message
-		,	from= arguments.from
-		,	statusCallback= arguments.callback
+			"api"= "POST /SMS/Messages"
+		,	"To"= arguments.to
+		,	"Body"= arguments.message
+		,	"From"= arguments.from
+		,	"StatusCallback"= arguments.callback
 		);
 		return out;
 	}
@@ -64,12 +64,12 @@ component {
 	 */
 	function getMessages(numeric limit=50, numeric page=0, string to="", string from="", string dateSent="") {
 		var out= this.apiRequest(
-			api="GET /SMS/Messages"
-		,	num= arguments.limit
-		,	page= arguments.page
-		,	from= arguments.from
-		,	to= arguments.to
-		,	dateSent= arguments.dateSent
+			"api"="GET /SMS/Messages"
+		,	"Num"= arguments.limit
+		,	"Page"= arguments.page
+		,	"From"= arguments.from
+		,	"To"= arguments.to
+		,	"DateSent"= arguments.dateSent
 		);
 		return out;
 	}
@@ -98,9 +98,9 @@ component {
 		};
 		debugLog( "#out.verb# #out.requestUrl#" );
 		//debugLog( out );
-		cfhttp( result="http", method=arguments.requestMethod, url=out.requestUrl, charset="utf-8", throwOnError=false, password=this.authToken, timeOut=this.httpTimeOut, username=this.accountSid ) {
-			for ( item in arguments ) {
-				if ( arguments.requestMethod == "POST" ) {
+		cfhttp( result="http", method=out.verb, url=out.requestUrl, charset="utf-8", throwOnError=false, password=this.authToken, timeOut=this.httpTimeOut, username=this.accountSid ) {
+			for( item in arguments ) {
+				if( out.verb == "POST" ) {
 					cfhttpparam( name=item, type="formfield", value=arguments[ item ] );
 				} else {
 					cfhttpparam( name=item, type="url", value=arguments[ item ] );
@@ -110,27 +110,27 @@ component {
 		out.response= toString( http.fileContent );
 		// debugLog( out.response );
 		out.statusCode = http.responseHeader.Status_Code ?: 500;
-		if ( left( out.statusCode, 1 ) == 4 || left( out.statusCode, 1 ) == 5 ) {
+		if( left( out.statusCode, 1 ) == 4 || left( out.statusCode, 1 ) == 5 ) {
 			out.error= "status code error: #out.statusCode#";
-		} else if ( out.response == "Connection Timeout" || out.response == "Connection Failure" ) {
+		} else if( out.response == "Connection Timeout" || out.response == "Connection Failure" ) {
 			out.error= out.response;
-		} else if ( left( out.statusCode, 1 ) == 2 ) {
+		} else if( left( out.statusCode, 1 ) == 2 ) {
 			out.success= true;
 		}
 		// parse response 
 		try {
-			if ( left( http.responseHeader[ "Content-Type" ], 16 ) == "application/json" ) {
+			if( left( http.responseHeader[ "Content-Type" ], 16 ) == "application/json" ) {
 				out.response= deserializeJSON( out.response );
 			} else {
 				out.error= "Invalid response type: " & http.responseHeader[ "Content-Type" ];
 			}
-			if ( isDefined( "out.response.message" ) ) {
+			if( isDefined( "out.response.message" ) ) {
 				out.error= out.response.message;
 			}
 		} catch (any cfcatch) {
 			out.error= "JSON Error: " & (cfcatch.message?:"No catch message") & " " & (cfcatch.detail?:"No catch detail");
 		}
-		if ( len( out.error ) ) {
+		if( len( out.error ) ) {
 			out.success= false;
 		}
 		this.debugLog( out.statusCode & " " & out.error );
